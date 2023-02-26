@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FormationController;
 use App\Http\Controllers\ParticipantController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,8 +19,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::prefix('participants')->group(function() {
-    Route::get('/', [ParticipantController::class, 'index']);
-    Route::get('/create', [ParticipantController::class, 'create']);
-    Route::post('/create', [ParticipantController::class, 'store']);
-});
+// Route::prefix('participants')->group(function() {
+//     Route::get('/', [ParticipantController::class, 'index']);
+//     Route::get('/create', [ParticipantController::class, 'create']);
+//     Route::post('/', [ParticipantController::class, 'store']);
+//     Route::get('/{participant}/edit', [ParticipantController::class, 'edit']);
+//     Route::put('/{participant}', [ParticipantController::class, 'update']);
+//     Route::delete('/{participant}', [ParticipantController::class, 'destroy']);
+// });
+
+Route::resource('participants', ParticipantController::class)->except('show');
+
+Route::resource('formations', FormationController::class);
