@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FormationController;
+use App\Http\Controllers\FormationParticipantController;
 use App\Http\Controllers\ParticipantController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,3 +32,9 @@ Route::get('/', function () {
 Route::resource('participants', ParticipantController::class)->except('show');
 
 Route::resource('formations', FormationController::class);
+
+Route::post('/formation/{formation}/participants',
+[FormationParticipantController::class, 'store']);
+
+Route::delete('/formation/{formation}/participants/{participant}',
+[FormationParticipantController::class, 'destroy']);

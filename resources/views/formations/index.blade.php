@@ -16,7 +16,7 @@
             <th>Description</th>
             <th>Debut</th>
             <th>Fin</th>
-            <th colspan="2"></th>
+            <th></th>
         </thead>
         @foreach($formations as $formation)
             <tbody>
@@ -25,6 +25,9 @@
                 <td>{{ $formation->desciption }}</td>
                 <td>{{ Carbon\Carbon::parse($formation->start_at)->format('D d M Y') }}</td>
                 <td>{{ Carbon\Carbon::parse($formation->end_at)->format('D d M Y') }}</td>
+                <td>
+                    <a href="/formations/{{ $formation->id }}">Details</a>
+                </td>
             </tbody>
         @endforeach
     </table>

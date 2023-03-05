@@ -15,4 +15,9 @@ class Formation extends Model
     {
         return $this->belongsTo(Technology::class);
     }
+
+    public function participants()
+    {
+        return $this->belongsToMany(Participant::class, 'formation_participants', 'formation_id', 'participant_id');
+    }
 }

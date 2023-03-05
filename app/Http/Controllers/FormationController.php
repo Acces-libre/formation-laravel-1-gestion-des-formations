@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FormationFormRequest;
 use App\Models\Formation;
+use App\Models\Participant;
 use App\Models\Technology;
 use Illuminate\Http\Request;
 
@@ -38,16 +40,8 @@ class FormationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(FormationFormRequest $request)
     {
-        $request->validate([
-            'title' => 'required|string:255',
-            'description' => 'required',
-            'technology_id' => 'required|numeric|exists:technologies,id',
-            'start_at' => 'required|date|after:today',
-            'end_at' => 'required|date|after:start_at'
-        ]);
-
         Formation::create([
             'title' => $request->title,
             'desciption' => $request->description,
@@ -67,7 +61,9 @@ class FormationController extends Controller
      */
     public function show(Formation $formation)
     {
-        //
+        $participants = Participant::all();
+
+        return view('formations.show', compact('formation', 'participants'));
     }
 
     /**
@@ -78,7 +74,9 @@ class FormationController extends Controller
      */
     public function edit(Formation $formation)
     {
-        //
+        $technologies = Technology::all();
+
+        return view('formations.edit', compact('formation', 'technologies'));
     }
 
     /**
@@ -88,9 +86,17 @@ class FormationController extends Controller
      * @param  \App\Models\Formation  $formation
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Formation $formation)
+    public function update(FormationFormRequest $request, Formation $formation)
     {
-        //
+        $formation->update([
+            'title' => $request->title,
+            'desciption' => $request->description,
+            'technology_id' => $request->technology_id,
+            'start_at' => $request->start_at,
+            'end_at' => $request->end_at
+        ]);
+
+        return back()->with('success', 'Formation mit a jou avec succes');
     }
 
     /**
