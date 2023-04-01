@@ -29,12 +29,21 @@ Route::get('/', function () {
 //     Route::delete('/{participant}', [ParticipantController::class, 'destroy']);
 // });
 
-Route::resource('participants', ParticipantController::class)->except('show');
+Route::middleware('auth')->group(function() {
+    Route::resource('participants', ParticipantController::class)->except('show');
 
-Route::resource('formations', FormationController::class);
+    Route::resource('formations', FormationController::class)->except('show');
 
-Route::post('/formation/{formation}/participants',
-[FormationParticipantController::class, 'store']);
+    Route::get('formations/{formation}', [FormationController::class, 'show'])
+    ->middleware('verify.formation');
 
-Route::delete('/formation/{formation}/participants/{participant}',
-[FormationParticipantController::class, 'destroy']);
+    Route::post('/formation/{formation}/participants',
+    [FormationParticipantController::class, 'store']);
+
+    Route::delete('/formation/{formation}/participants/{participant}',
+    [FormationParticipantController::class, 'destroy']);
+});
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

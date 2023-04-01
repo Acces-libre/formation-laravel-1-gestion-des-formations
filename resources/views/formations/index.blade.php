@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <h1>Liste des formations</h1>
+    <h1>Liste des formations | {{ Auth::user()->name }}</h1>
     <hr>
     <a href="/formations/create">Creation de formation</a>
     <hr>
